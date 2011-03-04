@@ -10,28 +10,33 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110217234317) do
+ActiveRecord::Schema.define(:version => 20110304000156) do
 
-  create_table "courses", :force => true do |t|
+  create_table "clients", :force => true do |t|
     t.text     "name"
+    t.text     "address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "nit"
+  end
+
+  add_index "clients", ["nit"], :name => "index_clients_on_nit", :unique => true, :length => {"nit"=>"10"}
+
+  create_table "orders", :force => true do |t|
     t.text     "code"
+    t.integer  "client_id"
+    t.integer  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "courses_students", :id => false, :force => true do |t|
-    t.integer  "course_id"
-    t.integer  "student_id"
+  create_table "products", :force => true do |t|
+    t.text     "code"
+    t.decimal  "price",       :precision => 10, :scale => 0
+    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "students", :force => true do |t|
-    t.text     "name"
-    t.text     "student_id"
-    t.boolean  "status"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer  "order_id"
   end
 
 end
